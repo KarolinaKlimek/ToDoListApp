@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new task</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+</head>
+<body>
+    <h1>List TODO</h1>
+    <hr>
+    <h2>Create new task</h2>
+
+    <form action="#" th:action="@{/saveTask}" th:object="${task}" method="POST">
+        <input type="text" th:field="*{title}" placeholder="Title" class="form-control mb-4 col-4">
+
+        <input type="text" th:field="*{description}" placeholder="Description" class="form-control mb-4 col-4">
+
+        <input type="hidden" th:field="*{created}" th:value="${task != null ? (task.created != null ? #temporals.format(task.created, 'yyyy-MM-dd HH:mm:ss') : #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')) : #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />
+
+        <input type="datetime-local" th:field="*{deadline}" class="form-control mb-4 col-4" />
+
+        <hr>
+
+        <div class="form-group">
+            <label>Priority:</label>
+            <select th:field="*{priority}" class="form-control">
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+            </select>
+        </div>
+
+        <hr>
+
+        <button type="submit" class="btn btn-info col-2"> Save task </button>
+    </form>
+
+    <hr>
+
+    <a th:href="@{/}"> Back to TODO List</a>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+</body>
+</html>

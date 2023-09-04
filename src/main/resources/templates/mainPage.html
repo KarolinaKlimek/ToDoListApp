@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List to do</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+</head>
+
+<body>
+    <h1>TODO list</h1>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <a th:href="@{/newTaskPage}" class="btn btn-primary btn-sm">Add new task</a>
+        <form action="#" th:action="@{/deleteAll}" method="post">
+            <button type="submit" class="btn btn-danger btn-sm">Delete all tasks</button>
+        </form>
+    </div>
+
+    <table border="1" class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortedField=title&sortedDirection=' + ${reserveSortDirection}}">
+                    Title
+                </a>
+            </th>
+            <th> Description </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortedField=created&sortedDirection=' + ${reserveSortDirection}}">
+                    Created task
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortedField=deadline&sortedDirection=' + ${reserveSortDirection}}">
+                   Deadline
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortedField=priority&sortedDirection=' + ${reserveSortDirection}}">
+                    Priority
+                </a>
+            </th>
+            <th> Done </th>
+            <th> Options </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${#temporals.format(task.created, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${task.deadline != null ? #temporals.format(task.deadline, 'yyyy-MM-dd HH:mm') : ''}"></td>
+            <td th:text="${task.priority}"
+                th:classappend="${#strings.equals(task.priority, 'LOW')} ? 'low' :
+                  (${#strings.equals(task.priority, 'MEDIUM')} ? 'medium' :
+                  (${#strings.equals(task.priority, 'HIGH')} ? 'high' : 'default'))">
+            </td>
+            <td>
+                <span th:if="${task.done}">done!</span>
+                <span th:unless="${task.done}">in progress</span>
+            </td>
+            <td>
+                <a th:href="@{/showUpdateTaskPage/{id}(id=${task.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteTaskById/{id}(id=${task.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-2">
+                Total Rows: [[${totalElements}]]
+            </div>
+            <div class = "col-sm-1">
+             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+              <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortedField=' + ${sortedField} + '&sortedDirection=' + ${sortedDirection}}">[[${i}]]</a>
+              <span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+             </span>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortedField=' + ${sortedField} + '&sortedDirection=' + ${sortedDirection}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortedField=' + ${sortedField} + '&sortedDirection=' + ${sortedDirection}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+.btn-primary {
+        background-color: darkblue;
+        color: white;
+        border-color: darkred;
+}
+
+/* Priorytet "Low" */
+td.low {
+    color: green;
+    font-weight: normal; /* Możesz ustawić normalną grubość czcionki */
+}
+
+/* Priorytet "Medium" */
+td.medium {
+    color: orange;
+    font-weight: semibold;
+}
+
+/* Priorytet "High" */
+td.high {
+    color: red;
+    font-weight: bold;
+}
+
+
+.default {
+    color: black;
+}
