@@ -19,6 +19,7 @@
     <form action="#" th:action="@{/saveTask}" th:object="${task}" method="POST">
         <input type="text" th:field="*{title}" placeholder="Title" class="form-control mb-4 col-4">
 
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></div>
         <input type="text" th:field="*{description}" placeholder="Description" class="form-control mb-4 col-4">
 
         <input type="hidden" th:field="*{created}" th:value="${task != null ? (task.created != null ? #temporals.format(task.created, 'yyyy-MM-dd HH:mm:ss') : #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')) : #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}" />

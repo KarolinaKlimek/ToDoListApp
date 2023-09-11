@@ -1,6 +1,7 @@
 package pl.projekt.basicListToDo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Task {
     private String title;
 
     @Column(name = "description")
+    @Size(max = 512, message = "Description length must not exceed 512 characters. Correct and save task again.")
     private String description;
 
     @Column(name = "created")

@@ -37,6 +37,10 @@ public class TaskController {
     @PostMapping("/saveTask")
     public String saveTask(@ModelAttribute("task") @Valid Task task, BindingResult result) {
 
+        if(result.hasErrors()) {
+            return "newTask";
+        }
+
         if (task.getId() != null) {
             Task originalTask = taskService.getTaskById(task.getId());
             originalTask.setTitle(task.getTitle());
